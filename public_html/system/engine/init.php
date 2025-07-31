@@ -13,6 +13,7 @@ use Spindle\System\Engine\Registry;
 use Spindle\System\Engine\Autoloader;
 use Spindle\System\Engine\Config;
 use Spindle\system\library\loggers\Log;
+use Spindle\System\Library\DB\DatabaseManager;
 
 // Debug/Logging Setup
 if (DEVELOPMENT) {
@@ -51,3 +52,7 @@ $registry->set('log', $log);
 if ($config->get('development')) {
 	$log->clearLog();
 }
+
+// Create the database connections
+$manager = new DatabaseManager($registry);
+$manager->loadDatabases($config->get('databases'), 'website'); // <- website is the default DB
