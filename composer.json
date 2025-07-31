@@ -1,2 +1,32 @@
 {
+  "name": "spindle/cms",
+  "description": "Spindle CMS — A lightweight, developer-focused content framework derived from OpenCart.",
+  "type": "project",
+  "keywords": [
+    "cms",
+    "content",
+    "framework",
+    "opensource",
+    "lightweight",
+    "modular"
+  ],
+  "homepage": "https://github.com/RandomCoderTinker/Spindle",
+  "license": "GPL-3.0-or-later",
+  "support": {
+    "email": "4247239+RandomCoderTinker@users.noreply.github.com",
+    "issues": "https://github.com/RandomCoderTinker/Spindle/issues",
+    "forum": "https://github.com/RandomCoderTinker/Spindle/discussions",
+    "wiki": "https://github.com/RandomCoderTinker/Spindle/wiki",
+    "source": "https://github.com/RandomCoderTinker/Spindle",
+    "docs": "https://github.com/RandomCoderTinker/Spindle/wiki"
+  },
+  "config": {
+    "vendor-dir": "storage/vendor/"
+  },
+  "require": {
+    "php": ">=8.0.2",
+    "scssphp/scssphp": "^1.10.0",
+    "twig/twig": "^3.18.0",
+    "aws/aws-sdk-php": "^3.336.13"
+  }
 }
