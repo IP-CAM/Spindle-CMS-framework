@@ -9,6 +9,7 @@
  * @link    https://github.com/RandomCoderTinker/Spindle
  */
 
+use Spindle\System\Engine\Registry;
 use Spindle\System\Engine\Autoloader;
 use Spindle\System\Engine\Config;
 
@@ -23,3 +24,11 @@ if (DEVELOPMENT) {
 $autoloader = new Autoloader();
 $autoloader->register('Spindle\\', MAIN_WEB_ROOT);
 $autoloader->register('Spindle\Shared\\', MAIN_SHARED_ROOT);
+
+// Registry
+$registry = new Registry();
+$registry->set('autoloader', $autoloader);
+
+// Config
+$config = new Config(DIR_CONFIG);
+$config->load('default.config');
