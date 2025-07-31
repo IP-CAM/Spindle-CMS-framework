@@ -11,6 +11,7 @@
 
 // Version & Framework
 const VERSION = '1.0.0.0';
+const FRAMEWORK = 'app';
 
 // Set Timezone if not set
 if (!ini_get('date.timezone')) date_default_timezone_set('UTC');

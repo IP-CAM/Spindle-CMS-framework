@@ -12,6 +12,7 @@
 use Spindle\System\Engine\Registry;
 use Spindle\System\Engine\Autoloader;
 use Spindle\System\Engine\Config;
+use Spindle\system\library\loggers\Log;
 
 // Debug/Logging Setup
 if (DEVELOPMENT) {
@@ -32,3 +33,21 @@ $registry->set('autoloader', $autoloader);
 // Config
 $config = new Config(DIR_CONFIG);
 $config->load('default.config');
+
+// Overwrites Default Config for the application specific
+$config->load('config.' . $config->get('application'));
+
+// Set the application
+$config->set('application', $config->get('application'));
+
+// Set config in registry
+$registry->set('config', $config);
+
+// Start logging
+$log = new Log(ERROR_FILE_NAME);
+$registry->set('log', $log);
+
+// Clear log on each load if in development mode
+if ($config->get('development')) {
+	$log->clearLog();
+}
