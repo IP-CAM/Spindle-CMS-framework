@@ -5,20 +5,26 @@
 [![Build Status](https://img.shields.io/badge/build-manual-lightgrey.svg)](https://github.com/RandomCoderTinker/Spindle)
 [![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red.svg)](https://github.com/RandomCoderTinker/Spindle)
 
-**Spindle** is a lightweight, developer-friendly CMS framework derived from the core of OpenCart — redesigned for structured content management instead of e-commerce.  
+[![Project Status: WIP](https://img.shields.io/badge/status-WIP-orange.svg)](https://github.com/RandomCoderTinker/Spindle)
 
-It preserves the simplicity of OpenCart’s MVC architecture, but removes e-commerce logic entirely, focusing instead on speed, clarity, and developer-first modularity.
+**Spindle** is a lightweight, developer-friendly CMS framework derived from the core of OpenCart — redesigned for
+structured content management instead of e-commerce.
+
+It preserves the simplicity of OpenCart’s MVC architecture, but removes e-commerce logic entirely, focusing instead on
+speed, clarity, and developer-first modularity.
+
+> 🏗️🚧 This project is in early development. Expect rapid changes and sharp edges.
 
 ---
 
 ## Features
 
-- **Lightweight MVC core** — no Composer installation required to get started  
-- **Secure directory separation** — config, logs, and cache stored outside the webroot  
-- **Modular and override-ready** — drop-in logic, admin modules, and extensions  
-- **Developer-first** — clean structure, no abstract wrappers  
-- **Composer-supported** — bundled, but not required  
-- **No commerce** — no cart, checkout, product logic  
+- **Lightweight MVC core** — no Composer installation required to get started
+- **Secure directory separation** — config, logs, and cache stored outside the webroot
+- **Modular and override-ready** — drop-in logic, admin modules, and extensions
+- **Developer-first** — clean structure, no abstract wrappers
+- **Composer-supported** — bundled, but not required
+- **No commerce** — no cart, checkout, product logic
 - **Open Source (GPLv3)** — modify, extend, redistribute freely
 
 ---
@@ -40,11 +46,11 @@ It preserves the simplicity of OpenCart’s MVC architecture, but removes e-comm
 
 4. Set writable permissions on:
 
-   * `storage/`
-   * `storage/logs/`
-   * `storage/cache/`
-   * `cdn/images/`
-   
+    * `storage/`
+    * `storage/logs/`
+    * `storage/cache/`
+    * `cdn/images/`
+
 5. (Optional) Run:
 
    ```bash
