@@ -12,7 +12,14 @@
 namespace Spindle\System\Engine;
 
 use Exception;
+use Spindle\System\Library\Http\Url;
 
+/**
+ * Added properties for compatibility with PHPStorm linking
+ *
+ * @property Url $url
+ *
+ */
 class Controller
 {
 	/**
