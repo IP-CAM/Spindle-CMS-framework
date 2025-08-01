@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /
+
+# Block direct access to system/storage directory
+RewriteRule ^system/storage/(.*) index.php?route=error/not_found [L]
+
+# Rewrite Rules for general routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.(ico|gif|jpg|jpeg|png|webp|js|css|svg)$ [NC]
+RewriteRule ^(.*)$ index.php?_route_=$1 [L,QSA]
