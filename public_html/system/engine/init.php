@@ -43,7 +43,7 @@ $config = new Config(DIR_CONFIG);
 $config->load('default.config');
 
 // Overwrites Default Config for the application specific
-$config->load($config->get('application') . 'config');
+$config->load($config->get('application') . '.config');
 
 // Set the application
 $config->set('application', $config->get('application'));
