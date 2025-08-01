@@ -27,7 +27,6 @@ use Spindle\System\Library\Template\Template;
 
 // Include the main autoloader
 $autoloader->register('Spindle\\' . ucfirst($config->get('application')) . '\\', $config->get('main_folder'));
-die($config->get('main_folder'));
 
 // Include the required vendors for the autoloading shite
 require_once(DIR_SYSTEM . 'vendor.php');
