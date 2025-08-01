@@ -1,0 +1,69 @@
+## No directory listings
+<IfModule mod_autoindex.c>
+  IndexIgnore *
+</IfModule>
+
+## No-Referrer-Header
+<IfModule mod_headers.c>
+  Header set Referrer-Policy "no-referrer"
+</IfModule>
+
+## Suppress mime type detection in browsers for unknown types and prevent FLOC
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Permissions-Policy "interest-cohort=()"
+</IfModule>
+
+## Can be commented out if causes errors.
+Options +FollowSymlinks
+
+## Prevent Directory listing
+Options -Indexes
+
+# Cache Override - for development purposes
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</IfModule>
+<FilesMatch "\.(html|php|js|css|png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|eot)$">
+  Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
+
+## SEO URL Settings
+RewriteEngine On
+RewriteBase /
+
+## Prevent Direct Access to files
+RewriteCond %{REQUEST_URI} \.(tpl|twig|ini|log|(?<!robots)\.txt)$ [NC]
+RewriteRule ^.*$ /index.php?route=error/not_found [L,R=302]
+
+## Redirect bare domain to www (e.g. spindle.com → www.spindle.com)
+RewriteCond %{HTTP_HOST} ^([^.]+\.[^.]+)$ [NC]
+RewriteRule ^(.*)$ https://www.%1/$1 [L,R=301]
+
+## Dynamic Subdomain Folder Routing (domain-agnostic)
+# Only apply these rules if there is a genuine subdomain (i.e. three or more parts)
+RewriteCond %{HTTP_HOST} ^([^.]+)\.[^.]+\.[^.]+$ [NC]
+RewriteCond %{REQUEST_URI} !^/subDomains/ [NC]
+RewriteCond %{DOCUMENT_ROOT}/subDomains/%1 -d
+RewriteRule ^(.*)$ /subDomains/%1/$1 [L,QSA]
+
+# If the subdomain folder does not exist, use the "default" folder
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteCond %{HTTP_HOST} ^([^.]+)\.[^.]+\.[^.]+$ [NC]
+RewriteCond %{REQUEST_URI} !^/subDomains/ [NC]
+RewriteCond %{DOCUMENT_ROOT}/subDomains/%1 !-d
+RewriteRule ^(.*)$ /subDomains/_default/$1 [L,QSA]
+
+## Rewrite Rules for general routing (including subdomains)
+RewriteRule ^system/storage/(.*) index.php?route=error/not_found [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|webp|js|css|svg)$ [NC]
+RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
+
+## Any directory with a index.html - show a 404
+RewriteRule ^(.*/)?index\.html$ /index.php?route=error/not_found [L,R=302]
