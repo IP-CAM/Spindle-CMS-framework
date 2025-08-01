@@ -9,6 +9,8 @@
  * @link    https://github.com/RandomCoderTinker/Spindle
  */
 
+use Spindle\System\Engine\Loader;
+use Spindle\System\Engine\Factory;
 use Spindle\System\Engine\Registry;
 use Spindle\System\Engine\Autoloader;
 use Spindle\System\Engine\Config;
@@ -56,3 +58,10 @@ if ($config->get('development')) {
 // Create the database connections
 $manager = new DatabaseManager($registry);
 $manager->loadDatabases($config->get('databases'), 'website'); // <- website is the default DB
+
+// Factory
+$registry->set('factory', new Factory($registry));
+
+// Loader
+$loader = new Loader($registry);
+$registry->set('load', $loader);
