@@ -3,9 +3,8 @@
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D8.0.2-8892bf.svg?logo=php)](https://www.php.net/releases/8.0/en.php)
 [![Build Status](https://img.shields.io/badge/build-manual-lightgrey.svg)](https://github.com/RandomCoderTinker/Spindle)
-[![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red.svg)](https://github.com/RandomCoderTinker/Spindle)
-
 [![Project Status: WIP](https://img.shields.io/badge/status-WIP-orange.svg)](https://github.com/RandomCoderTinker/Spindle)
+[![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red.svg)](https://github.com/RandomCoderTinker/Spindle)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/RandomCoderTinker/Spindle/refs/heads/master/public_html/cdn/images/logo_spindle.webp" alt="Spindle CMS Logo" width="180" />
