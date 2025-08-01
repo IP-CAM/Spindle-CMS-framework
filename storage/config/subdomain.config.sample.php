@@ -35,7 +35,14 @@ $_['main_folder'] = MAIN_WEB_ROOT . 'subDomains/' . $subdomain;
 $_['response_header'] = ['Content-Type: text/html; charset=utf-8'];
 $_['response_compression'] = 0;
 
-$_['action_pre_action'] = [];
+$_['action_pre_action'] = [
+	'system/settings',
+	'system/seo_url',
+	'system/language',
+	'system/application',
+	'system/event',
+	'system/maintenance',
+];
 
 $_['action_event'] = [
 	'controller/*/before' => [
