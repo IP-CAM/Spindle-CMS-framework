@@ -22,7 +22,8 @@ product SKUs.
 ## What Makes Spindle Different?
 
 - **No eCommerce bloat** — no carts, no payments, no inventory logic
-- **Dynamic subdomain routing** — serve multi-site content from folders with no config
+- **Dynamic subdomain routing** — serve multi-site content from folders
+- **Shared folders and models** — Use a shared folder for subdomains and other content
 - **Familiar MVC structure** — but focused purely on content-first deployments
 - **No Composer required** — works out-of-the-box without external dependencies
 - **Full codebase access** — nothing obfuscated, everything hackable
@@ -74,13 +75,17 @@ composer install
 ## Directory Layout
 
 * `public_html/` – public web root
+* `public_html/app` – Main website
+* `public_html/cdn` – CDN folder for faster load speeds (Set up with VHOST or cloudflare caching)
+* `public_html/data` – Manifest data and images (if required)
+* `public_html/subDomains` – folder-based routing for subdomains
+* `public_html/shared` – Shared utilities (Models, Views, Controllers)
+* `public_html/system` – All system components
 * `storage/` – configs, logs, cache (outside web root)
-* `extensions/` – custom modules & logic
-* `subDomains/` – folder-based routing for subdomains
 
 ---
 
-## � Why Spindle?
+## Why Spindle?
 
 > "OpenCart Without the Cart."
 
@@ -94,16 +99,15 @@ baggage. This is a toolkit for making dashboards, wikis, documentation hubs, and
 * [x] Rewrite base routing and MVC to remove cart logic
 * [x] Subdomain-to-folder routing via `.htaccess`
 * [x] Directory security separation
-* [ ] CLI tooling for module generators
-* [ ] Optional flat-file mode (no DB)
-* [ ] Admin UI theming system
-* [ ] Fully API-driven mode (optional headless)
+* [ ] Everything else
+* [ ] Example usages
+* [ ] Future updates
 
 ---
 
 ## License
 
-GPLv3 — free to use, fork, modify, and redistribute.
+GPLv3 — free to use, fork, modify, and redistribute, would be MIT, but have to stick with opencart's license.
 
 > Spindle is yours now. Hack it.
 
