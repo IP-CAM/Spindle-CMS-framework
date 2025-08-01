@@ -7,6 +7,10 @@
 
 [![Project Status: WIP](https://img.shields.io/badge/status-WIP-orange.svg)](https://github.com/RandomCoderTinker/Spindle)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RandomCoderTinker/Spindle/refs/heads/master/public_html/cdn/images/logo_spindle.webp" alt="Spindle CMS Logo" width="180" />
+</p>
+
 **Spindle** is a lightweight, developer-friendly CMS framework derived from the core of OpenCart — redesigned for
 structured content management instead of e-commerce.
 
