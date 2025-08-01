@@ -35,9 +35,6 @@ const ERROR_DISPLAY = TRUE;
 const ERROR_FILE_NAME = 'error.log';
 const ENV_KEY_SECRET = '1d0e51f1bb56a82f11dd6f548dcf80b87eaa03b5af08d78b082b959637ce0854';
 
-// Const Database
-const DB_PREFIX = 'spin_';
-
 // Website headers
 const DEFAULT_TITLE = "Spindle CMS | Lightweight Developer-Centric Content Framework";
 const DEFAULT_DESCRIPTION = "Spindle is a streamlined, open-source CMS framework for PHP developers. Built from OpenCart's core structure and reimagined for modern content-driven websites, without the bloat.";
