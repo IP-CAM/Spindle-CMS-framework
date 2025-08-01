@@ -1,0 +1,135 @@
+<!--
+  ~ Spindle CMS
+  ~ Copyright (c) 2025. All rights reserved.
+  ~
+  ~ This file is part of the Spindle CMS project — a lightweight, modular PHP content framework derived from OpenCart.
+  ~
+  ~ @license GNU General Public License v3.0 (GPL-3.0-or-later)
+  ~ @link    https://github.com/RandomCoderTinker/Spindle
+  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Spindle CDN</title>
+    <meta name="description" content="Content Delivery Network for Spindle CMS assets and packages."/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <style>
+        :root {
+            --bg-base: #FFF8EA;
+            --text-main: #2b2b2b;
+            --text-muted: #666;
+            --accent: #b07d30;
+            --accent-light: rgba(176, 125, 48, 0.1);
+            --border: #e0d8c9;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 720px;
+            padding: 2rem;
+            border-radius: 12px;
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--accent-light);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 999px;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            margin: 1rem auto;
+        }
+
+        .status::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        code {
+            background: #f4ede1;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--text-main);
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 2rem 0;
+        }
+
+        .footer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="/images/logo_spindle.webp" alt="Spindle CMS Logo" class="logo"/>
+    <h1>Spindle CDN</h1>
+    <div class="status">System Operational</div>
+    <p>
+        This content delivery network provides fast, reliable access to core Spindle CMS assets, extensions, and
+        documentation packages.
+    </p>
+    <div class="divider"></div>
+    <p>
+        Available paths:
+        <code>/css</code>, <code>/js</code>, <code>/images</code>, <code>/media</code>, <code>/fonts</code>
+    </p>
+    <div class="footer">
+        &copy; 2025 <a href="https://spindle.website">Spindle.website</a>
+    </div>
+</div>
+</body>
+</html>
