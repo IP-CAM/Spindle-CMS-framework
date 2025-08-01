@@ -19,6 +19,10 @@
 // Include the required vendors for the autoloading shite
 use Spindle\System\Engine\Action;
 use Spindle\System\Library\Security\Csp;
+use Spindle\System\Library\Http\Document;
+use Spindle\System\Library\Security\Csrf;
+use Spindle\System\Library\Template\Template;
+use Spindle\System\Library\Language\Language;
 use Spindle\System\Library\Security\Session;
 
 require_once(DIR_SYSTEM . 'vendor.php');
@@ -77,3 +81,23 @@ if (isset($request->cookie[$session_name])) {
 // Start the session
 $session->start();
 
+// Template
+$template = new Template($session);
+$template->addPath(DIR_TEMPLATE);                          // Default path
+$template->addPath('shared', MAIN_WEB_ROOT . 'shared/view/');
+$registry->set('template', $template);
+
+// Language
+$language = new Language($config->get('language_code'));
+$language->addPath(DIR_LANGUAGE);
+$language->load('default');
+$registry->set('language', $language);
+
+// Document
+$registry->set('document', new Document($csp));
+
+// CSRF
+$registry->set('csrf', new Csrf($session));
+
+// Finalise
+require DIR_SYSTEM . 'engine/finalise.php';
