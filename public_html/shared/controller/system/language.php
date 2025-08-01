@@ -27,7 +27,7 @@ class Language extends Controller
 	 */
 	public function index (): void
 	{
-		// Hardcoded langauge at the moment
+		// Hardcoded language at the moment
 
 		$this->config->set('config_language', "en-gb");
 		$this->load->language('default');

@@ -17,7 +17,10 @@ use Spindle\System\Library\Http\Url;
 /**
  * Added properties for compatibility with PHPStorm linking
  *
- * @property Url $url
+ * @property Url    $url   ;
+ * @property Loader $load  ;
+ * @property Config $config;
+ *
  *
  */
 class Controller
