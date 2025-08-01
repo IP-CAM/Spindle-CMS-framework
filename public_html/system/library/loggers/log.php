@@ -9,7 +9,7 @@
  * @link    https://github.com/RandomCoderTinker/Spindle
  */
 
-namespace Spindle\system\library\loggers;
+namespace Spindle\System\Library\Loggers;
 
 /**
  * Class Log

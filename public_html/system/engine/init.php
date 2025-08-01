@@ -43,7 +43,7 @@ $config = new Config(DIR_CONFIG);
 $config->load('default.config');
 
 // Overwrites Default Config for the application specific
-$config->load('config.' . $config->get('application'));
+$config->load($config->get('application') . 'config');
 
 // Set the application
 $config->set('application', $config->get('application'));
@@ -56,7 +56,7 @@ $log = new Log(ERROR_FILE_NAME);
 $registry->set('log', $log);
 
 // Clear log on each load if in development mode
-if ($config->get('development')) {
+if (DEVELOPMENT) {
 	$log->clearLog();
 }
 
