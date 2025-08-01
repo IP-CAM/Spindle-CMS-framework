@@ -1,0 +1,898 @@
+{{ header }}
+
+<body>
+<!-- Header -->
+
+{{ content_top }}
+
+<!-- Main content -->
+<main class="docs-layout">
+    <!-- Sidebar navigation -->
+    <aside class="sidebar">
+        <h3>Getting Started</h3>
+        <ul>
+            <li><a href="#introduction" class="active">Introduction</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#first-steps">First Steps</a></li>
+        </ul>
+
+        <h3>Core Concepts</h3>
+        <ul>
+            <li><a href="#mvc-structure">MVC Structure</a></li>
+            <li><a href="#file-layout">File Layout</a></li>
+            <li><a href="#dynamic-subdomains">Dynamic Subdomains</a></li>
+            <li><a href="#content-types">Content Types</a></li>
+            <li><a href="#templates">Templates</a></li>
+        </ul>
+
+        <h3>Development</h3>
+        <ul>
+            <li><a href="#creating-pages">Creating Pages</a></li>
+            <li><a href="#custom-modules">Custom Modules</a></li>
+            <li><a href="#extensions">Extensions</a></li>
+            <li><a href="#api-reference">API Reference</a></li>
+        </ul>
+
+        <h3>Deployment</h3>
+        <ul>
+            <li><a href="#hosting">Hosting Requirements</a></li>
+            <li><a href="#database">Database Setup</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#performance">Performance</a></li>
+        </ul>
+    </aside>
+
+    <!-- Documentation content -->
+    <article class="docs-content">
+        <section id="introduction">
+            <h1>Spindle CMS Documentation</h1>
+            <p class="lead">Welcome to Spindle CMS — OpenCart without the cart. This documentation will guide you
+                through installation, configuration, and development with Spindle.</p>
+
+            <h2>What is Spindle?</h2>
+            <p>Spindle is a lightweight, modular CMS built from OpenCart, but repurposed to manage content instead of
+                ecommerce. We've removed carts, payments, and inventory, leaving a clean, developer-focused framework
+                for building:</p>
+
+            <ul>
+                <li>Websites and blogs</li>
+                <li>Documentation portals</li>
+                <li>Wiki systems</li>
+                <li>Simple admin interfaces</li>
+                <li>Content management solutions</li>
+            </ul>
+
+            <div class="info">
+                <strong>Philosophy:</strong> If you know OpenCart, you already know Spindle. We keep the familiar MVC
+                structure and file layout, but focus entirely on content management.
+            </div>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>No Composer Required:</strong> Full access to the codebase without dependency hell</li>
+                <li><strong>Proven MVC Structure:</strong> OpenCart's battle-tested architecture</li>
+                <li><strong>Dynamic Subdomains:</strong> Built-in subdomain mapping with folder-based routing</li>
+                <li><strong>Full Control:</strong> No black boxes or hidden magic</li>
+                <li><strong>Lightweight:</strong> Stripped of ecommerce bloat</li>
+            </ul>
+        </section>
+
+        <section id="installation">
+            <h2>Installation</h2>
+
+            <h3>System Requirements</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Minimum Version</th>
+                    <th>Recommended</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>PHP</td>
+                    <td>7.4</td>
+                    <td>8.1+</td>
+                </tr>
+                <tr>
+                    <td>MySQL</td>
+                    <td>5.6</td>
+                    <td>8.0+</td>
+                </tr>
+                <tr>
+                    <td>Web Server</td>
+                    <td>Apache 2.4 / Nginx 1.10</td>
+                    <td>Latest stable</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>Quick Install</h3>
+            <pre><code># Clone the repository
+git clone https://github.com/spindle-cms/spindle.git
+cd spindle
+
+# Set permissions (Linux/Mac)
+chmod 755 -R .
+chmod 644 config.php admin/config.php
+
+# Create database and import schema
+mysql -u root -p
+CREATE DATABASE spindle_cms;
+USE spindle_cms;
+SOURCE install/spindle.sql;
+
+# Configure database connection
+cp config-sample.php config.php
+# Edit config.php with your database details</code></pre>
+
+            <div class="warning">
+                <strong>Important:</strong> Make sure to secure your installation by removing the <code>install/</code>
+                directory after setup and setting proper file permissions.
+            </div>
+
+            <h3>Web Server Configuration</h3>
+
+            <h4>Apache (.htaccess)</h4>
+            <pre><code>RewriteEngine On
+RewriteBase /
+RewriteRule ^sitemap.xml$ index.php?route=extension/feed/google_sitemap [L]
+RewriteRule ^googlebase.xml$ index.php?route=extension/feed/google_base [L]
+RewriteRule ^system/storage/(.*) index.php?route=error/not_found [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
+RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]</code></pre>
+
+            <h4>Nginx</h4>
+            <pre><code>server {
+    listen 80;
+    server_name your-domain.com;
+    root /path/to/spindle;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ @spindle;
+    }
+
+    location @spindle {
+        rewrite ^/(.+)$ /index.php?_route_=$1 last;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}</code></pre>
+        </section>
+
+        <section id="configuration">
+            <h2>Configuration</h2>
+
+            <h3>Database Configuration</h3>
+            <p>Edit your <code>config.php</code> file to set up database connection:</p>
+
+            <pre><code><?php
+// Database
+define('DB_DRIVER', 'mysqli');
+define('DB_HOSTNAME', 'localhost');
+define('DB_USERNAME', 'your_username');
+define('DB_PASSWORD', 'your_password');
+define('DB_DATABASE', 'spindle_cms');
+define('DB_PORT', '3306');
+define('DB_PREFIX', 'sp_');
+
+// Site URL
+define('HTTP_SERVER', 'http://your-domain.com/');
+define('HTTPS_SERVER', 'https://your-domain.com/');
+?></code></pre>
+
+            <h3>Admin Configuration</h3>
+            <p>Configure the admin panel in <code>admin/config.php</code>:</p>
+
+            <pre><code><?php
+// Admin
+define('HTTP_SERVER', 'http://your-domain.com/admin/');
+define('HTTPS_SERVER', 'https://your-domain.com/admin/');
+
+// Dir
+define('DIR_APPLICATION', '/path/to/spindle/admin/');
+define('DIR_SYSTEM', '/path/to/spindle/system/');
+define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
+define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
+define('DIR_CONFIG', DIR_SYSTEM . 'config/');
+define('DIR_IMAGE', '/path/to/spindle/image/');
+define('DIR_STORAGE', DIR_SYSTEM . 'storage/');
+define('DIR_CATALOG', '/path/to/spindle/catalog/');
+define('DIR_MODIFICATION', DIR_SYSTEM . 'modification/');
+define('DIR_UPLOAD', DIR_SYSTEM . 'storage/upload/');
+define('DIR_LOGS', DIR_SYSTEM . 'storage/logs/');
+define('DIR_DOWNLOAD', DIR_SYSTEM . 'storage/download/');
+?></code></pre>
+
+            <div class="tip">
+                <strong>Pro Tip:</strong> Use environment variables for sensitive configuration values in production
+                environments.
+            </div>
+        </section>
+
+        <section id="first-steps">
+            <h2>First Steps</h2>
+
+            <h3>Access the Admin Panel</h3>
+            <p>Once installed, access your admin panel at <code>http://your-domain.com/admin/</code></p>
+
+            <p>Default login credentials:</p>
+            <ul>
+                <li><strong>Username:</strong> admin</li>
+                <li><strong>Password:</strong> admin</li>
+            </ul>
+
+            <div class="warning">
+                <strong>Security:</strong> Change the default admin password immediately after first login!
+            </div>
+
+            <h3>Creating Your First Page</h3>
+            <ol>
+                <li>Navigate to <strong>Design → Layouts</strong></li>
+                <li>Create a new layout for your page</li>
+                <li>Go to <strong>Catalog → Information</strong></li>
+                <li>Click <strong>Add New</strong> to create your first content page</li>
+                <li>Fill in the page details and content</li>
+                <li>Save and view your page on the frontend</li>
+            </ol>
+
+            <h3>Understanding the Interface</h3>
+            <p>The Spindle admin interface is organized into several main sections:</p>
+
+            <ul>
+                <li><strong>Dashboard:</strong> Overview and quick stats</li>
+                <li><strong>Catalog:</strong> Content management (pages, categories, media)</li>
+                <li><strong>Extensions:</strong> Modules and plugins</li>
+                <li><strong>Design:</strong> Themes, layouts, and templates</li>
+                <li><strong>System:</strong> Settings, users, and maintenance</li>
+            </ul>
+        </section>
+
+        <section id="mvc-structure">
+            <h2>MVC Structure</h2>
+            <p>Spindle follows the Model-View-Controller (MVC) pattern inherited from OpenCart. Understanding this
+                structure is key to effective development.</p>
+
+            <h3>Directory Structure</h3>
+            <pre><code>spindle/
+├── admin/              # Admin panel
+│   ├── controller/     # Admin controllers
+│   ├── model/         # Admin models
+│   ├── view/          # Admin views
+│   └── language/      # Admin translations
+├── catalog/           # Frontend application
+│   ├── controller/    # Frontend controllers
+│   ├── model/        # Frontend models
+│   ├── view/         # Frontend views
+│   └── language/     # Frontend translations
+├── system/           # Core system files
+│   ├── engine/       # Core classes
+│   ├── library/      # Shared libraries
+│   └── storage/      # Logs, cache, uploads
+└── image/           # Static assets</code></pre>
+
+            <h3>Controllers</h3>
+            <p>Controllers handle HTTP requests and coordinate between models and views:</p>
+
+            <pre><code><?php
+class ControllerCommonHome extends Controller {
+    public function index() {
+        $this->load->language('common/home');
+        $this->load->model('catalog/information');
+
+        $data['heading_title'] = $this->language->get('heading_title');
+        $data['pages'] = $this->model_catalog_information->getInformations();
+
+        $this->response->setOutput($this->load->view('common/home', $data));
+    }
+}</code></pre>
+
+            <h3>Models</h3>
+            <p>Models handle data operations and business logic:</p>
+
+            <pre><code><?php
+class ModelCatalogInformation extends Model {
+    public function getInformation($information_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information WHERE information_id = '" . (int)$information_id . "'");
+
+        return $query->row;
+    }
+
+    public function getInformations() {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information WHERE status = '1' ORDER BY sort_order");
+
+        return $query->rows;
+    }
+}</code></pre>
+
+            <h3>Views</h3>
+            <p>Views handle the presentation layer using template files:</p>
+
+            <pre><code><?php echo $header; ?>
+                    <div class="container">
+    <h1><?php echo $heading_title; ?></h1>
+
+                        <?php foreach ($pages as $page) { ?>
+                        <article class="page-summary">
+        <h2><a href="<?php echo $page['href']; ?>"><?php echo $page['title']; ?></a></h2>
+        <p><?php echo $page['description']; ?></p>
+    </article>
+                        <?php } ?>
+</div>
+                    <?php echo $footer; ?></code></pre>
+        </section>
+
+        <section id="file-layout">
+            <h2>File Layout</h2>
+            <p>Spindle maintains OpenCart's familiar file organization with some content-focused modifications.</p>
+
+            <h3>Naming Conventions</h3>
+            <ul>
+                <li><strong>Controllers:</strong> <code>controller/path/filename.php</code></li>
+                <li><strong>Models:</strong> <code>model/path/filename.php</code></li>
+                <li><strong>Views:</strong> <code>view/template/path/filename.twig</code></li>
+                <li><strong>Languages:</strong> <code>language/en-gb/path/filename.php</code></li>
+            </ul>
+
+            <h3>URL Routing</h3>
+            <p>URLs map directly to controller methods:</p>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Controller</th>
+                    <th>Method</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>/</td>
+                    <td>common/home</td>
+                    <td>index()</td>
+                </tr>
+                <tr>
+                    <td>/about</td>
+                    <td>information/information</td>
+                    <td>index()</td>
+                </tr>
+                <tr>
+                    <td>/blog/post</td>
+                    <td>blog/post</td>
+                    <td>index()</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="info">
+                <strong>SEO URLs:</strong> Enable SEO URLs in the admin panel for clean, search-friendly URLs.
+            </div>
+        </section>
+
+        <section id="dynamic-subdomains">
+            <h2>Dynamic Subdomains</h2>
+            <p>Spindle includes powerful dynamic subdomain mapping that OpenCart and most CMS platforms lack entirely.
+                This feature enables multi-site and multi-tenant environments with zero configuration.</p>
+
+            <h3>How It Works</h3>
+            <p>When a user visits a subdomain like <code>blog.spindle.website</code>, Spindle automatically:</p>
+
+            <ol>
+                <li>Checks for a matching folder in <code>/subDomains/blog/</code></li>
+                <li>If found, serves the Spindle installation from that folder</li>
+                <li>If not found, falls back to <code>/subDomains/_default/</code></li>
+                <li>Each subdomain can have its own database, themes, and content</li>
+            </ol>
+
+            <div class="info">
+                <strong>Zero Configuration:</strong> No complex routing rules, no database changes, no code
+                modifications. Just create folders and they become subdomains.
+            </div>
+
+            <h3>Directory Structure</h3>
+            <pre><code>your-domain.com/
+├── subDomains/
+│   ├── _default/          # Fallback for unmapped subdomains
+│   │   ├── admin/         # Default admin panel
+│   │   ├── catalog/       # Default frontend
+│   │   ├── system/        # Default system files
+│   │   └── config.php     # Default configuration
+│   ├── blog/              # blog.your-domain.com
+│   │   ├── admin/         # Blog-specific admin
+│   │   ├── catalog/       # Blog frontend
+│   │   ├── system/        # Blog system files
+│   │   └── config.php     # Blog database config
+│   └── docs/              # docs.your-domain.com
+│       ├── admin/         # Docs admin panel
+│       ├── catalog/       # Docs frontend
+│       └── config.php     # Docs database config
+└── .htaccess              # Handles subdomain routing</code></pre>
+
+            <h3>Setting Up Subdomains</h3>
+            <p>To create a new subdomain:</p>
+
+            <ol>
+                <li><strong>Create the folder:</strong> <code>mkdir /subDomains/yoursubdomain</code></li>
+                <li><strong>Copy Spindle files:</strong> Copy from <code>_default</code> or install fresh</li>
+                <li><strong>Configure database:</strong> Update <code>config.php</code> with subdomain-specific database
+                </li>
+                <li><strong>Set up DNS:</strong> Point <code>*.yourdomain.com</code> to your server</li>
+            </ol>
+
+            <div class="tip">
+                <strong>Pro Tip:</strong> Use the same database with different table prefixes, or separate databases
+                entirely. Each subdomain is completely independent.
+            </div>
+
+            <h3>Use Cases</h3>
+            <ul>
+                <li><strong>Multi-site Management:</strong> <code>blog.site.com</code>, <code>docs.site.com</code>,
+                    <code>store.site.com</code></li>
+                <li><strong>Client Portals:</strong> <code>client1.agency.com</code>, <code>client2.agency.com</code>
+                </li>
+                <li><strong>Language/Region Sites:</strong> <code>uk.company.com</code>, <code>us.company.com</code>
+                </li>
+                <li><strong>Environment Staging:</strong> <code>dev.site.com</code>, <code>staging.site.com</code></li>
+            </ul>
+
+            <h3>Technical Implementation</h3>
+            <p>The magic happens in <code>.htaccess</code> with simple rewrite rules:</p>
+
+            <pre><code>RewriteEngine On
+RewriteCond %{HTTP_HOST} ^([^.]+)\.yourdomain\.com$
+RewriteCond %{DOCUMENT_ROOT}/subDomains/%1 -d
+RewriteRule ^(.*)$ /subDomains/%1/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^([^.]+)\.yourdomain\.com$
+RewriteCond %{DOCUMENT_ROOT}/subDomains/%1 !-d
+RewriteRule ^(.*)$ /subDomains/_default/$1 [L]</code></pre>
+
+            <div class="warning">
+                <strong>Security Note:</strong> Each subdomain should have its own admin credentials and database
+                access. Don't share sensitive configuration between subdomains.
+            </div>
+        </section>
+
+        <section id="content-types">
+            <h2>Content Types</h2>
+            <p>Spindle supports various content types out of the box, all focused on content management rather than
+                ecommerce.</p>
+
+            <h3>Information Pages</h3>
+            <p>Static content pages like About, Contact, Terms of Service:</p>
+
+            <pre><code>// Creating an information page
+$this->load->model('catalog/information');
+
+$data = array(
+    'information_description' => array(
+        1 => array(
+            'title' => 'About Us',
+            'description' => 'Our company story...',
+            'meta_title' => 'About Our Company',
+            'meta_description' => 'Learn about our company history',
+            'meta_keyword' => 'about, company, history'
+        )
+    ),
+    'sort_order' => 1,
+    'status' => 1
+);
+
+$this->model_catalog_information->addInformation($data);</code></pre>
+
+            <h3>Blog Posts</h3>
+            <p>Article-style content with categories and tags:</p>
+
+            <pre><code>// Blog post structure
+$blog_post = array(
+    'title' => 'Getting Started with Spindle',
+    'content' => 'Full article content...',
+    'excerpt' => 'Brief summary...',
+    'category_id' => 1,
+    'tags' => 'cms, spindle, getting-started',
+    'published_date' => date('Y-m-d H:i:s'),
+    'status' => 1
+);</code></pre>
+
+            <h3>Custom Content Types</h3>
+            <p>Extend Spindle with your own content types by creating custom controllers and models.</p>
+        </section>
+
+        <section id="templates">
+            <h2>Templates</h2>
+            <p>Spindle uses Twig templating engine for clean, secure template development.</p>
+
+
+            <section id="creating-pages">
+                <h2>Creating Pages</h2>
+                <p>Learn how to create custom pages and content in Spindle.</p>
+
+                <h3>Static Pages</h3>
+                <ol>
+                    <li>Create a controller in <code>catalog/controller/information/</code></li>
+                    <li>Create corresponding model if needed</li>
+                    <li>Create template file in <code>catalog/view/template/information/</code></li>
+                    <li>Add language file in <code>catalog/language/en-gb/information/</code></li>
+                </ol>
+
+                <h3>Dynamic Content</h3>
+                <p>For database-driven content, create models that interact with your custom tables:</p>
+
+                <pre><code><?php
+class ModelBlogPost extends Model {
+    public function getPost($post_id) {
+        $query = $this->db->query("
+            SELECT p.*, pd.title, pd.content, pd.meta_title
+            FROM " . DB_PREFIX . "blog_post p
+            LEFT JOIN " . DB_PREFIX . "blog_post_description pd ON (p.post_id = pd.post_id)
+            WHERE p.post_id = '" . (int)$post_id . "'
+            AND p.status = '1'
+        ");
+
+        return $query->row;
+    }
+}</code></pre>
+
+                <h3>SEO Considerations</h3>
+                <ul>
+                    <li>Use descriptive URLs with SEO URL feature</li>
+                    <li>Set proper meta titles and descriptions</li>
+                    <li>Implement structured data markup</li>
+                    <li>Optimize images with alt tags</li>
+                </ul>
+            </section>
+
+            <section id="custom-modules">
+                <h2>Custom Modules</h2>
+                <p>Extend Spindle functionality with custom modules.</p>
+
+                <h3>Module Structure</h3>
+                <pre><code>extensions/
+└── my_module/
+    ├── admin/
+    │   ├── controller/extension/module/my_module.php
+    │   ├── language/en-gb/extension/module/my_module.php
+    │   └── view/template/extension/module/my_module.twig
+    ├── catalog/
+    │   ├── controller/extension/module/my_module.php
+    │   └── view/template/extension/module/my_module.twig
+    └── install/
+        ├── install.sql
+        └── uninstall.sql</code></pre>
+
+                <h3>Module Controller Example</h3>
+                <pre><code><?php
+class ControllerExtensionModuleMyModule extends Controller {
+    public function index() {
+        $this->load->language('extension/module/my_module');
+
+        $data['heading_title'] = $this->language->get('heading_title');
+        $data['custom_content'] = $this->getCustomContent();
+
+        return $this->load->view('extension/module/my_module', $data);
+    }
+
+    private function getCustomContent() {
+        // Your custom logic here
+        return 'Custom module content';
+    }
+}</code></pre>
+
+                <h3>Installing Modules</h3>
+                <ol>
+                    <li>Upload module files to the extensions directory</li>
+                    <li>Go to <strong>Extensions → Installer</strong> in admin</li>
+                    <li>Upload and install your module</li>
+                    <li>Configure module settings</li>
+                    <li>Assign to layouts where needed</li>
+                </ol>
+            </section>
+
+            <section id="hosting">
+                <h2>Hosting Requirements</h2>
+                <p>Spindle is designed to work on most standard web hosting environments.</p>
+
+                <h3>Recommended Hosting</h3>
+                <ul>
+                    <li><strong>VPS or Dedicated Server:</strong> Best performance and control</li>
+                    <li><strong>Shared Hosting:</strong> Works fine for smaller sites</li>
+                    <li><strong>Cloud Hosting:</strong> Scalable solutions (AWS, DigitalOcean, etc.)</li>
+                </ul>
+
+                <h3>PHP Requirements</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>Required</th>
+                        <th>Purpose</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>mysqli</td>
+                        <td>Yes</td>
+                        <td>Database connectivity</td>
+                    </tr>
+                    <tr>
+                        <td>gd</td>
+                        <td>Yes</td>
+                        <td>Image processing</td>
+                    </tr>
+                    <tr>
+                        <td>curl</td>
+                        <td>Yes</td>
+                        <td>HTTP requests</td>
+                    </tr>
+                    <tr>
+                        <td>zip</td>
+                        <td>Recommended</td>
+                        <td>Extension management</td>
+                    </tr>
+                    <tr>
+                        <td>mbstring</td>
+                        <td>Recommended</td>
+                        <td>Multi-byte string handling</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h3>File Permissions</h3>
+                <pre><code># Set correct permissions
+find . -type f -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
+
+# Writable directories
+chmod 777 -R image/
+chmod 777 -R system/storage/
+chmod 777 -R system/modification/</code></pre>
+
+                <div class="warning">
+                    <strong>Security:</strong> Never use 777 permissions in production. Use proper user/group ownership
+                    instead.
+                </div>
+            </section>
+
+            <section id="database">
+                <h2>Database Setup</h2>
+                <p>Spindle requires a MySQL/MariaDB database for content storage.</p>
+
+                <h3>Database Creation</h3>
+                <pre><code>CREATE DATABASE spindle_cms CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'spindle_user'@'localhost' IDENTIFIED BY 'secure_password';
+GRANT ALL PRIVILEGES ON spindle_cms.* TO 'spindle_user'@'localhost';
+FLUSH PRIVILEGES;</code></pre>
+
+                <h3>Key Tables</h3>
+                <ul>
+                    <li><code>sp_information</code> - Static pages and content</li>
+                    <li><code>sp_category</code> - Content categories</li>
+                    <li><code>sp_layout</code> - Page layouts</li>
+                    <li><code>sp_module</code> - Installed modules</li>
+                    <li><code>sp_setting</code> - System configuration</li>
+                    <li><code>sp_user</code> - Admin users</li>
+                </ul>
+
+                <h3>Backup Strategy</h3>
+                <pre><code># Regular backup
+mysqldump -u username -p spindle_cms > backup_$(date +%Y%m%d).sql
+
+# Automated daily backup
+0 2 * * * /usr/bin/mysqldump -u username -p'password' spindle_cms > /backups/spindle_$(date +\%Y\%m\%d).sql</code></pre>
+            </section>
+
+            <section id="security">
+                <h2>Security</h2>
+                <p>Security best practices for your Spindle installation.</p>
+
+                <h3>Admin Security</h3>
+                <ul>
+                    <li>Change default admin credentials immediately</li>
+                    <li>Use strong, unique passwords</li>
+                    <li>Rename the admin directory</li>
+                    <li>Implement IP restrictions for admin access</li>
+                    <li>Enable two-factor authentication if available</li>
+                </ul>
+
+                <h3>File Security</h3>
+                <pre><code># Secure important files
+chmod 644 config.php admin/config.php
+chown www-data:www-data config.php admin/config.php
+
+# Prevent direct access to system files
+# Add to .htaccess
+</code></pre>
+
+                <h3>Database Security</h3>
+                <ul>
+                    <li>Use separate database user with minimal privileges</li>
+                    <li>Change default table prefix from 'oc_' to something unique</li>
+                    <li>Keep database software updated</li>
+                    <li>Use SSL/TLS for database connections</li>
+                </ul>
+
+                <h3>Regular Maintenance</h3>
+                <ol>
+                    <li>Keep Spindle updated to latest version</li>
+                    <li>Monitor error logs regularly</li>
+                    <li>Remove unused files and extensions</li>
+                    <li>Implement regular security audits</li>
+                </ol>
+            </section>
+
+            <section id="performance">
+                <h2>Performance Optimization</h2>
+                <p>Tips for optimizing your Spindle installation.</p>
+
+                <h3>Caching</h3>
+                <p>Enable built-in caching mechanisms:</p>
+
+                <pre><code>// In admin: System → Settings → Server
+// Enable these caching options:
+- Use Cache: Yes
+- Compression Level: 9
+- Use Compression: Yes</code></pre>
+
+                <h3>Image Optimization</h3>
+                <ul>
+                    <li>Optimize images before upload</li>
+                    <li>Use appropriate image formats (WebP when possible)</li>
+                    <li>Implement lazy loading for images</li>
+                    <li>Set up CDN for static assets</li>
+                </ul>
+
+                <h3>Database Optimization</h3>
+                <pre><code># Regular maintenance
+OPTIMIZE TABLE sp_information;
+OPTIMIZE TABLE sp_category;
+OPTIMIZE TABLE sp_setting;
+
+# Clear unnecessary logs
+TRUNCATE TABLE sp_api_log;
+TRUNCATE TABLE sp_customer_activity;</code></pre>
+
+                <h3>Server-Level Optimizations</h3>
+                <ul>
+                    <li>Enable PHP OPcache</li>
+                    <li>Use HTTP/2</li>
+                    <li>Enable Gzip compression</li>
+                    <li>Set proper cache headers</li>
+                    <li>Use a reverse proxy (Nginx, Cloudflare)</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>Monitoring:</strong> Use tools like GTmetrix, PageSpeed Insights, or New Relic to monitor
+                    performance regularly.
+                </div>
+            </section>
+
+            <section id="api-reference">
+                <h2>API Reference</h2>
+                <p>Core classes and methods you'll use when developing with Spindle.</p>
+
+                <h3>Controller Base Class</h3>
+                <pre><code>class Controller {
+    protected $registry;
+    protected $load;
+    protected $config;
+    protected $db;
+    protected $language;
+    protected $request;
+    protected $response;
+    protected $session;
+    protected $url;
+
+    // Load models, views, languages
+    $this->load->model('path/model');
+    $this->load->language('path/language');
+    $output = $this->load->view('path/template', $data);
+}</code></pre>
+
+                <h3>Database Operations</h3>
+                <pre><code>// Select query
+$query = $this->db->query("SELECT * FROM table WHERE id = '" . (int)$id . "'");
+$result = $query->row; // Single row
+$results = $query->rows; // Multiple rows
+
+// Insert
+$this->db->query("INSERT INTO table SET column = '" . $this->db->escape($value) . "'");
+$id = $this->db->getLastId();
+
+// Update
+$this->db->query("UPDATE table SET column = '" . $this->db->escape($value) . "' WHERE id = '" . (int)$id . "'");
+
+// Delete
+$this->db->query("DELETE FROM table WHERE id = '" . (int)$id . "'");</code></pre>
+
+                <h3>Configuration</h3>
+                <pre><code>// Get config value
+$value = $this->config->get('config_key');
+
+// Set config value (runtime only)
+$this->config->set('config_key', 'value');</code></pre>
+
+                <h3>Language/Localization</h3>
+                <pre><code>// Load language file
+$this->load->language('path/language');
+
+// Get translated string
+$text = $this->language->get('text_key');
+
+// Language file format
+$_['text_heading'] = 'Page Heading';
+$_['text_description'] = 'Page description text';</code></pre>
+
+                <h3>URL Generation</h3>
+                <pre><code>// Generate URL
+$url = $this->url->link('route/path', 'param=value');
+
+// HTTPS URL
+$secure_url = $this->url->link('route/path', 'param=value', true);</code></pre>
+            </section>
+    </article>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>© 2025 Spindle CMS. Visit <a href="https://spindle.website" target="_blank" rel="noopener noreferrer">spindle.website</a>
+            for more information.</p>
+    </div>
+</footer>
+
+<script>
+    // Simple sidebar navigation highlighting
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('.sidebar a');
+        const sections = document.querySelectorAll('.docs-content section');
+
+        function highlightCurrentSection() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', highlightCurrentSection);
+        highlightCurrentSection();
+
+        // Smooth scrolling for anchor links
+        links.forEach(link => {
+            if (link.getAttribute('href').startsWith('#')) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
