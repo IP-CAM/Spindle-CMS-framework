@@ -15,6 +15,8 @@ use Spindle\System\Engine\Registry;
 use Spindle\System\Engine\Autoloader;
 use Spindle\System\Engine\Config;
 use Spindle\system\library\loggers\Log;
+use Spindle\system\library\http\Request;
+use Spindle\system\library\http\Response;
 use Spindle\System\Library\DB\DatabaseManager;
 
 // Debug/Logging Setup
@@ -65,3 +67,11 @@ $registry->set('factory', new Factory($registry));
 // Loader
 $loader = new Loader($registry);
 $registry->set('load', $loader);
+
+// Request
+$request = new Request();
+$registry->set('request', $request);
+
+// Response
+$response = new Response();
+$registry->set('response', $response);
