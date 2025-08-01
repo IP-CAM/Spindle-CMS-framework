@@ -1,0 +1,364 @@
+/*
+ * Spindle CMS
+ * Copyright (c) 2025. All rights reserved.
+ *
+ * This file is part of the Spindle CMS project — a lightweight, modular PHP content framework derived from OpenCart.
+ *
+ * @license GNU General Public License v3.0 (GPL-3.0-or-later)
+ * @link    https://github.com/RandomCoderTinker/Spindle
+ */
+
+:root {
+    --bg-cream: #FFF8EA;
+    --accent-bronze: #8B7355;
+    --accent-bronze-light: #A0916B;
+    --text-dark: #2F2F2F;
+    --text-medium: #5A5A5A;
+    --text-light: #8A8A8A;
+    --border-light: #E8E1D3;
+    --white: #FFFFFF;
+    --border-radius: 8px;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-xxl: 4rem;
+    --max-width: 1200px;
+    --max-width-content: 800px;
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    background-color: var(--bg-cream);
+    color: var(--text-dark);
+    line-height: 1.6;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: var(--spacing-sm);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+p {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-medium);
+}
+
+/* Layout utilities */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+.content-container {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+/* Header */
+.header {
+    background-color: var(--bg-cream);
+    border-bottom: 2px solid var(--border-light);
+    padding: var(--spacing-md) 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-bronze);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo::before {
+    content: "◉";
+    margin-right: var(--spacing-xs);
+    font-size: 1.2rem;
+}
+
+.nav {
+    display: flex;
+    gap: var(--spacing-lg);
+    list-style: none;
+}
+
+.nav-link {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 400;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--accent-bronze);
+    color: var(--white);
+}
+
+/* Hero section */
+.hero {
+    padding: var(--spacing-xxl) 0;
+    text-align: center;
+}
+
+.hero h1 {
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-md);
+}
+
+.hero-tagline {
+    font-size: 1.25rem;
+    color: var(--text-medium);
+    margin-bottom: var(--spacing-xl);
+    font-weight: 300;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-bronze);
+    color: var(--white);
+    padding: var(--spacing-md) var(--spacing-xl);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    border: 2px solid var(--accent-bronze);
+}
+
+.cta-button:hover {
+    background-color: var(--accent-bronze-light);
+    border-color: var(--accent-bronze-light);
+    transform: translateY(-1px);
+}
+
+/* Features section */
+.features {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--white);
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--text-dark);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.feature-card {
+    background-color: var(--bg-cream);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 2px solid var(--border-light);
+    transition: all 0.2s ease;
+}
+
+.feature-card:hover {
+    border-color: var(--accent-bronze);
+    transform: translateY(-2px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--accent-bronze);
+}
+
+.feature-card h3 {
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+}
+
+/* Philosophy section */
+.philosophy {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--bg-cream);
+}
+
+.philosophy h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--text-dark);
+}
+
+.philosophy-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.philosophy-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-medium);
+}
+
+.philosophy-content em {
+    color: var(--accent-bronze);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.philosophy-highlight {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--accent-bronze) !important;
+    border-top: 2px solid var(--border-light);
+    padding-top: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--text-dark);
+    color: var(--white);
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.footer p {
+    color: var(--white);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: var(--accent-bronze-light);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    :root {
+        --spacing-xl: 2rem;
+        --spacing-xxl: 2.5rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .hero-tagline {
+        font-size: 1.1rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .feature-card {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .container, .content-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .nav {
+        gap: var(--spacing-sm);
+    }
+
+    .nav-link {
+        padding: var(--spacing-xs);
+        font-size: 0.9rem;
+    }
+
+    .cta-button {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: 1rem;
+    }
+}
+
+/* Focus states for accessibility */
+.nav-link:focus,
+.cta-button:focus,
+.logo:focus {
+    outline: 2px solid var(--accent-bronze);
+    outline-offset: 2px;
+}
+
+/* Utility classes */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
