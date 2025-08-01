@@ -9,20 +9,17 @@
  * @link    https://github.com/RandomCoderTinker/Spindle
  */
 
-namespace Spindle\App\Controller\Common;
+namespace Spindle\Shared\Controller\Common;
 
 use Spindle\System\Engine\Controller;
 
-class Home extends Controller
+class Footer extends Controller
 {
 
-	public function index ()
+	public function index (): string
 	{
-		$data['header'] = $this->load->controller('common/header');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['footer'] = $this->load->controller('common/footer');
-
-		$this->response->setOutput($this->load->view('common/home', $data));
+		// return the view
+		return $this->load->view('shared/common/footer');
 	}
 
 }

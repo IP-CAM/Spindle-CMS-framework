@@ -23,6 +23,7 @@ class Home extends Controller
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['footer'] = $this->load->controller('common/footer');
 
 		$this->response->setOutput($this->load->view('common/home', $data));
 	}
