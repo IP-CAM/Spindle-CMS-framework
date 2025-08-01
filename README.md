@@ -10,113 +10,109 @@
   <img src="https://raw.githubusercontent.com/RandomCoderTinker/Spindle/refs/heads/master/public_html/cdn/images/logo_spindle.webp" alt="Spindle CMS Logo" width="180" />
 </p>
 
-**Spindle** is a lightweight, developer-friendly CMS framework derived from the core of OpenCart — redesigned for
-structured content management instead of e-commerce.
+**Spindle** is a clean, developer-first CMS framework rebuilt from the architectural bones of OpenCart — but with the
+ecommerce layer surgically removed.  
+It’s what OpenCart might have become if it had focused on modular content management instead of checkout flows and
+product SKUs.
 
-It preserves the simplicity of OpenCart’s MVC architecture, but removes e-commerce logic entirely, focusing instead on
-speed, clarity, and developer-first modularity.
-
-> 🏗️🚧 This project is in early development. Expect rapid changes and sharp edges.
+> ⌛ *Lightweight. Familiar. No cart required.*
 
 ---
 
-## Features
+## What Makes Spindle Different?
 
-- **Lightweight MVC core** — no Composer installation required to get started
-- **Secure directory separation** — config, logs, and cache stored outside the webroot
-- **Modular and override-ready** — drop-in logic, admin modules, and extensions
-- **Developer-first** — clean structure, no abstract wrappers
-- **Composer-supported** — bundled, but not required
-- **No commerce** — no cart, checkout, product logic
-- **Open Source (GPLv3)** — modify, extend, redistribute freely
+- **No eCommerce bloat** — no carts, no payments, no inventory logic
+- **Dynamic subdomain routing** — serve multi-site content from folders with no config
+- **Familiar MVC structure** — but focused purely on content-first deployments
+- **No Composer required** — works out-of-the-box without external dependencies
+- **Full codebase access** — nothing obfuscated, everything hackable
+
+---
+
+## ✨ Features
+
+- Lightweight, override-friendly MVC architecture
+- Secure directory separation (storage outside webroot)
+- Modular extensions (`/extensions/`) without hard bindings
+- Dynamic subdomain mapping (e.g. blog.example.com → `/subDomains/blog/`)
+- Optional Composer support, bundled in `storage/vendor/`
+- No JS frameworks, no React, no headless nonsense
 
 ---
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/RandomCoderTinker/Spindle.git
-   ```
+```bash
+git clone https://github.com/RandomCoderTinker/Spindle.git
+````
 
-2. Set your **webserver document root** to:
+Set your document root to:
 
-   ```
-   Spindle/public_html/
-   ```
+```
+Spindle/public_html/
+```
 
-3. Ensure PHP 8.0+ and required extensions are installed.
+Ensure PHP 8.0+ is installed, and set write permissions on:
 
-4. Set writable permissions on:
+```
+/storage/
+/storage/logs/
+/storage/cache/
+/cdn/images/
+```
 
-    * `storage/`
-    * `storage/logs/`
-    * `storage/cache/`
-    * `cdn/images/`
+You may optionally run:
 
-5. (Optional) Run:
+```bash
+composer install
+```
 
-   ```bash
-   composer install
-   ```
-   to install or update third-party libraries. All required libraries are already bundled in `storage/vendor/`.
-
----
-
-## Requirements
-
-* PHP 8.0.2 or higher
-* Apache or Nginx (with rewrite support)
-* MySQL or MariaDB
-* Composer (optional)
+…but it’s not required. All needed libraries are pre-bundled.
 
 ---
 
-## Documentation
+## Directory Layout
 
-See the [Wiki](https://github.com/RandomCoderTinker/Spindle/wiki) for:
-
-* Folder structure & autoloading
-* Module development & routing
-* Theme override & template structure
-* Admin extensions & permissions
-* Deployment tips
+* `public_html/` – public web root
+* `storage/` – configs, logs, cache (outside web root)
+* `extensions/` – custom modules & logic
+* `subDomains/` – folder-based routing for subdomains
 
 ---
 
-## Philosophy
+## � Why Spindle?
 
-> **"Build on something clear. Deploy something lean."**
+> "OpenCart Without the Cart."
 
-Spindle is for developers who want:
-
-* Full control over the stack
-* Simple override logic
-* A CMS with *no* plugin lock-in or over-engineering
-* Source-readable PHP, not abstracted SDKs
+Spindle was designed for devs who liked the *simplicity* of OpenCart's architecture… but hated all the ecommerce
+baggage. This is a toolkit for making dashboards, wikis, documentation hubs, and admin UIs — not stores.
 
 ---
 
 ## Roadmap
 
-* [x] Core rewrite of OpenCart for content-first use
-* [x] Directory security separation (`storage/` outside webroot)
-* [ ] CLI tooling for module & controller generation
-* [ ] Starter site template packs
-* [ ] Optional flat-file driver for no-DB deployments
-* [ ] JSON-based API layer (experimental)
+* [x] Rewrite base routing and MVC to remove cart logic
+* [x] Subdomain-to-folder routing via `.htaccess`
+* [x] Directory security separation
+* [ ] CLI tooling for module generators
+* [ ] Optional flat-file mode (no DB)
+* [ ] Admin UI theming system
+* [ ] Fully API-driven mode (optional headless)
+
+---
+
+## License
+
+GPLv3 — free to use, fork, modify, and redistribute.
+
+> Spindle is yours now. Hack it.
 
 ---
 
 ## Credits
 
 Originally based on [OpenCart](https://github.com/opencart/opencart)
-Major refactor and CMS transition by [@RandomCoderTinker](https://github.com/RandomCoderTinker)
+Refactored, rebuilt, and unshackled by [@RandomCoderTinker](https://github.com/RandomCoderTinker)
 
 ---
-
-## License
-
-Licensed under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
-
-> You are free to use, modify, and redistribute this software under the terms of the GNU General Public License v3.
+Built with ❤️ using PHP 8.1+
