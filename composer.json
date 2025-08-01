@@ -28,6 +28,7 @@
     "scssphp/scssphp": "^1.10.0",
     "twig/twig": "^3.18.0",
     "aws/aws-sdk-php": "^3.336.13",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-redis": "*"
   }
 }

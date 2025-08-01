@@ -9,14 +9,17 @@
  * @link    https://github.com/RandomCoderTinker/Spindle
  */
 
+use Spindle\System\Engine\Event;
 use Spindle\System\Engine\Loader;
 use Spindle\System\Engine\Factory;
 use Spindle\System\Engine\Registry;
+use Spindle\System\Library\Http\Url;
 use Spindle\System\Engine\Autoloader;
 use Spindle\System\Engine\Config;
 use Spindle\system\library\loggers\Log;
 use Spindle\system\library\http\Request;
 use Spindle\system\library\http\Response;
+use Spindle\System\Library\Cache\FileCache;
 use Spindle\System\Library\DB\DatabaseManager;
 
 // Debug/Logging Setup
@@ -75,3 +78,17 @@ $registry->set('request', $request);
 // Response
 $response = new Response();
 $registry->set('response', $response);
+
+// Url
+$registry->set('url', new Url($config));
+
+// Cache
+$registry->set('cache', new FileCache($config->get('cache_expire')));
+
+// Event System
+$event = new Event($registry);
+$registry->set('event', $event);
+
+// Include framework
+$frameworkPath = DIR_SYSTEM . 'framework/' . FRAMEWORK . '.php';
+require_once $frameworkPath;
